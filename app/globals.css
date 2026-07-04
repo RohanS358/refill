@@ -1,0 +1,318 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------
+   Refill Enterprises — design tokens
+   Paper / Ink / Refill Green, with Pulse Lime quarantined to the
+   sports-nutrition context. See docs/color-system.md.
+------------------------------------------------------------------- */
+
+:root {
+  --background: #F7F6F2;          /* Paper */
+  --foreground: #122019;          /* Ink */
+  --card: #FFFFFF;                /* Surface */
+  --card-foreground: #122019;
+  --popover: #FFFFFF;
+  --popover-foreground: #122019;
+  --primary: #0E5F49;             /* Refill Green */
+  --primary-foreground: #F7F6F2;
+  --secondary: #ECEAE2;           /* Paper-2 */
+  --secondary-foreground: #122019;
+  --muted: #ECEAE2;
+  --muted-foreground: #5C685F;    /* Moss */
+  --accent: #0E5F49;
+  --accent-foreground: #F7F6F2;
+  --destructive: #B3261E;
+  --destructive-foreground: #FFFFFF;
+  --border: #E1DFD6;              /* Hairline */
+  --input: #FFFFFF;
+  --ring: #0E5F49;
+  --chart-1: #0E5F49;
+  --chart-2: #5C685F;
+  --chart-3: #122019;
+  --chart-4: #A8B4AA;
+  --chart-5: #D7F94E;
+  --radius: 0rem;
+
+  /* Brand extensions */
+  --ink-deep: #0B1712;            /* dark chapter sections */
+  --line-dark: #233830;           /* hairlines on dark */
+  --paper-dim: #A8B4AA;           /* secondary text on dark */
+  --pulse: #D7F94E;               /* sports-nutrition only (D-009) */
+  --green-soft: #7FB8A4;          /* Refill Green lifted for dark surfaces */
+
+  --sidebar: #0B1712;
+  --sidebar-foreground: #F7F6F2;
+  --sidebar-primary: #D7F94E;
+  --sidebar-primary-foreground: #0B1712;
+  --sidebar-accent: #233830;
+  --sidebar-accent-foreground: #F7F6F2;
+  --sidebar-border: #233830;
+  --sidebar-ring: #D7F94E;
+}
+
+.dark {
+  --background: #0B1712;
+  --foreground: #F7F6F2;
+  --card: #122019;
+  --card-foreground: #F7F6F2;
+  --popover: #122019;
+  --popover-foreground: #F7F6F2;
+  --primary: #7FB8A4;
+  --primary-foreground: #0B1712;
+  --secondary: #16241D;
+  --secondary-foreground: #F7F6F2;
+  --muted: #16241D;
+  --muted-foreground: #A8B4AA;
+  --accent: #7FB8A4;
+  --accent-foreground: #0B1712;
+  --destructive: #E5484D;
+  --destructive-foreground: #FFFFFF;
+  --border: #233830;
+  --input: #16241D;
+  --ring: #7FB8A4;
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink-deep: var(--ink-deep);
+  --color-line-dark: var(--line-dark);
+  --color-paper-dim: var(--paper-dim);
+  --color-pulse: var(--pulse);
+  --color-green-soft: var(--green-soft);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: 0rem;
+  --radius-md: 0rem;
+  --radius-lg: 0rem;
+  --radius-xl: 0rem;
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ------------------------------------------------------------------
+   Typography roles — docs/typography.md. Pages use these, never
+   re-derive display sizes inline.
+------------------------------------------------------------------- */
+
+@utility text-display-xl {
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+@utility text-display {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+@utility text-title {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+@utility text-lead {
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+}
+
+@utility text-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@utility text-data {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #0E5F49;
+    color: #F7F6F2;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion system — docs/animation-guidelines.md
+   Verbs: reveal · draw · count · scroll-scene · hover
+------------------------------------------------------------------- */
+
+/* Reveal: initial hidden state only applies when scripting is
+   available, so content is never lost without JS. */
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Draw: SVG strokes carry pathLength="1" + .draw-path, so dash math is
+   normalized. Nodes (.draw-node) fade in after the line arrives. */
+@media (scripting: enabled) {
+  [data-draw] .draw-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  [data-draw] .draw-node {
+    opacity: 0;
+  }
+}
+
+[data-draw] .draw-path {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--draw-delay, 0ms);
+}
+
+[data-draw] .draw-node {
+  transition: opacity 0.5s ease;
+  transition-delay: calc(var(--draw-delay, 0ms) + 700ms);
+}
+
+[data-draw].is-drawn .draw-path {
+  stroke-dashoffset: 0;
+}
+
+[data-draw].is-drawn .draw-node {
+  opacity: 1;
+}
+
+/* Marquee ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 36s linear infinite;
+}
+
+.marquee-mask:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Subtle drift for molecular fields (decorative only) */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -14px, 0); }
+}
+
+.animate-drift {
+  animation: drift 9s ease-in-out infinite;
+}
+
+.animate-drift-slow {
+  animation: drift 14s ease-in-out infinite;
+}
+
+/* Hero letter entrance */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Reduced motion: everything resolves to its final state. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-draw] .draw-path {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+  [data-draw] .draw-node {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .animate-marquee,
+  .animate-drift,
+  .animate-drift-slow,
+  .animate-rise-in {
+    animation: none !important;
+  }
+}
