@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { jakarta } from "./fonts";
 import { site } from "@/lib/site";
-import { Header } from "@/components/site/header";
-import { Footer } from "@/components/site/footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -41,25 +39,6 @@ export const metadata: Metadata = {
   },
 };
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: site.legalName,
-  url: site.url,
-  foundingDate: String(site.founded),
-  description: site.description,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: site.city,
-    addressCountry: "NP",
-  },
-  contactPoint: {
-    "@type": "ContactPoint",
-    email: site.email,
-    contactType: "customer service",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -68,19 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jakarta.variable} font-sans antialiased`}>
-        <a
-          href="#content"
-          className="text-eyebrow fixed left-5 top-5 z-[100] -translate-y-24 bg-primary px-4 py-3 text-primary-foreground transition-transform focus-visible:translate-y-0"
-        >
-          Skip to content
-        </a>
-        <Header />
-        <main id="content">{children}</main>
-        <Footer />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
+        {children}
         <Analytics />
       </body>
     </html>

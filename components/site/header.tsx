@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { primaryNav, fullNav } from "@/lib/site";
+import { primaryNav, fullNav, darkHeroRoutes } from "@/lib/site";
 import { Logo } from "./logo";
 import { cn } from "@/lib/utils";
 
@@ -54,14 +54,20 @@ export function Header() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  // Pages that open on Deep Ink need paper-colored header content until scrolled.
+  const darkTop =
+    !scrolled &&
+    darkHeroRoutes.some((route) => (route === "/" ? pathname === "/" : pathname.startsWith(route)));
+
   return (
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300",
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-300",
           scrolled
-            ? "border-b border-border bg-background/85 backdrop-blur-md"
+            ? "border-b border-border bg-background/85 text-foreground backdrop-blur-md"
             : "border-b border-transparent bg-transparent",
+          darkTop && "text-background",
         )}
       >
         <div className="mx-auto flex h-16 max-w-[88rem] items-center justify-between px-5 md:h-20 md:px-12 lg:px-20">
@@ -74,10 +80,14 @@ export function Header() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-foreground",
-                  isActive(item.href)
-                    ? "text-foreground underline decoration-primary decoration-2 underline-offset-8"
-                    : "text-muted-foreground",
+                  "text-sm font-medium transition-colors",
+                  darkTop
+                    ? "text-paper-dim hover:text-background"
+                    : "text-muted-foreground hover:text-foreground",
+                  isActive(item.href) &&
+                    (darkTop
+                      ? "text-background underline decoration-green-soft decoration-2 underline-offset-8"
+                      : "text-foreground underline decoration-primary decoration-2 underline-offset-8"),
                 )}
               >
                 {item.label}
@@ -88,7 +98,12 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Link
               href="/contact"
-              className="hidden bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-colors hover:bg-primary lg:inline-flex"
+              className={cn(
+                "hidden px-5 py-2.5 text-sm font-semibold transition-colors lg:inline-flex",
+                darkTop
+                  ? "bg-background text-foreground hover:bg-green-soft"
+                  : "bg-foreground text-background hover:bg-primary",
+              )}
             >
               Contact
             </Link>

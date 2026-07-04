@@ -4,6 +4,7 @@ import { Section } from "@/components/site/section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal, Draw } from "@/components/motion/reveal";
 import { Blueprint } from "@/components/gfx/blueprint";
+import { T } from "@/components/cms/t";
 
 const commitments = [
   { index: "A", title: "Quality assurance", body: "Domestic production under international quality standards." },
@@ -13,11 +14,12 @@ const commitments = [
 ];
 
 /** Chapter 08 — the manufacturing vision as a blueprint. */
-export function Manufacturing() {
+export async function Manufacturing() {
   return (
     <Section id="manufacturing">
       <SectionHeading
         index="08"
+        ck="home.manufacturing"
         eyebrow="Future manufacturing"
         title="Made in Nepal, to a global standard."
         lead="Our long-term commitment: a state-of-the-art manufacturing facility on Nepali soil — drawn here first, then built."
@@ -40,10 +42,16 @@ export function Manufacturing() {
                     {c.index}
                   </span>
                   <div>
-                    <h3 className="text-title">{c.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <h3 className="text-title">
+                      <T k={`home.manufacturing.commitments.${i}.title`}>{c.title}</T>
+                    </h3>
+                    <T
+                      k={`home.manufacturing.commitments.${i}.body`}
+                      as="p"
+                      className="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
                       {c.body}
-                    </p>
+                    </T>
                   </div>
                 </div>
               </Reveal>

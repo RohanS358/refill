@@ -93,8 +93,14 @@ export const productFamilies: ProductFamily[] = [
   },
 ];
 
+export type ExpertiseDomain = {
+  index: string;
+  title: string;
+  body: string;
+};
+
 /** Expertise domains — home chapter 03. */
-export const expertiseDomains = [
+export const expertiseDomains: ExpertiseDomain[] = [
   {
     index: "01",
     title: "Critical Care Nutrition",
@@ -125,4 +131,4 @@ export const expertiseDomains = [
     title: "Medical Devices & Applications",
     body: "Advanced devices and digital applications used exclusively in critical-care nutrition and patient management — bridging technology and nutritional care.",
   },
-] as const;
+];

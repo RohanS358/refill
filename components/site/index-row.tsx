@@ -8,13 +8,15 @@ type IndexRowProps = {
   /** Small trailing tag, e.g. a category or location. */
   tag?: string;
   defaultOpen?: boolean;
+  /** CMS key for the title — makes it editable in the admin. */
+  titleKey?: string;
 };
 
 /**
  * Numbered expandable row (native details/summary — keyboard and
  * no-JS safe). Used for expertise domains, careers roles, FAQs.
  */
-export function IndexRow({ index, title, children, tag, defaultOpen }: IndexRowProps) {
+export function IndexRow({ index, title, children, tag, defaultOpen, titleKey }: IndexRowProps) {
   return (
     <details
       open={defaultOpen}
@@ -29,7 +31,7 @@ export function IndexRow({ index, title, children, tag, defaultOpen }: IndexRowP
         <span aria-hidden="true" className="text-data text-primary">
           {index}
         </span>
-        <h3 className="text-title flex-1 text-balance">{title}</h3>
+        <h3 className="text-title flex-1 text-balance" data-cms={titleKey}>{title}</h3>
         {tag ? (
           <span className="text-data hidden text-muted-foreground md:block">{tag}</span>
         ) : null}

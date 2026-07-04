@@ -4,24 +4,28 @@ import { Section } from "@/components/site/section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProductCard } from "@/components/site/product-card";
 import { Reveal } from "@/components/motion/reveal";
+import { collection } from "@/lib/cms/content";
 import { productFamilies } from "@/lib/products";
 
-/** Chapter 04 — the four clinical families in a hairline grid. */
-export function FeaturedProducts() {
+/** Chapter 04 — the clinical families in a hairline grid. */
+export async function FeaturedProducts() {
+  const families = await collection("products", productFamilies);
+
   return (
     <Section id="products">
       <div className="flex flex-wrap items-end justify-between gap-8">
         <SectionHeading
           index="04"
+          ck="home.products"
           eyebrow="Featured products"
           title="Four families of clinical formulation."
           className="flex-1 basis-full lg:basis-auto"
         />
       </div>
       <div className="mt-16 grid grid-cols-1 gap-px border border-border bg-border md:mt-24 md:grid-cols-2 xl:grid-cols-4">
-        {productFamilies.map((family, i) => (
+        {families.map((family, i) => (
           <Reveal key={family.id} delay={i * 90} className="flex">
-            <ProductCard family={family} className="w-full" />
+            <ProductCard family={family} ci={i} className="w-full" />
           </Reveal>
         ))}
       </div>

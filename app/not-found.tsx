@@ -1,10 +1,23 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Molecule } from "@/components/gfx/molecule";
+import { Header } from "@/components/site/header";
+import { Footer } from "@/components/site/footer";
 
+// Global 404 sits outside the (site) route group, so it carries its own chrome.
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col justify-center bg-background">
+    <>
+      <Header />
+      <NotFoundBody />
+      <Footer />
+    </>
+  );
+}
+
+function NotFoundBody() {
+  return (
+    <main className="flex min-h-screen flex-col justify-center bg-background">
       <div className="mx-auto w-full max-w-[88rem] px-5 py-32 md:px-12 lg:px-20">
         <div className="flex items-center gap-4">
           <Molecule variant="metabolic" className="h-14 w-14 text-primary" />
@@ -37,6 +50,6 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

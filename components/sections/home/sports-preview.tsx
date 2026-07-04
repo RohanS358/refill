@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/site/section";
 import { Reveal } from "@/components/motion/reveal";
 import { DotLattice } from "@/components/gfx/dot-lattice";
+import { T } from "@/components/cms/t";
 
 const pillars = ["Performance", "Recovery", "Wellness", "Active lifestyle"] as const;
 
@@ -10,7 +11,7 @@ const pillars = ["Performance", "Recovery", "Wellness", "Active lifestyle"] as c
  * Chapter 09 — the future line. The one place on the home page where
  * Pulse Lime is allowed (docs/decisions.md D-009).
  */
-export function SportsPreview() {
+export async function SportsPreview() {
   return (
     <Section id="sports" tone="dark" className="relative overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 text-pulse/20">
@@ -26,26 +27,25 @@ export function SportsPreview() {
         </Reveal>
         <Reveal delay={90}>
           <h2 className="text-display-xl mt-8 max-w-5xl text-balance">
-            The same science.
+            <T k="home.sports.line1">The same science.</T>
             <br />
-            Built for performance<span className="text-pulse">.</span>
+            <T k="home.sports.line2">Built for performance</T>
+            <span className="text-pulse">.</span>
           </h2>
         </Reveal>
         <Reveal delay={180}>
-          <p className="text-lead mt-8 max-w-2xl text-paper-dim">
-            A sports nutrition portfolio engineered on our clinical foundation — for
-            athletes, fitness enthusiasts, and everyone whose recovery deserves
-            critical-care rigour.
-          </p>
+          <T k="home.sports.lead" as="p" className="text-lead mt-8 max-w-2xl text-paper-dim">
+            A sports nutrition portfolio engineered on our clinical foundation — for athletes, fitness enthusiasts, and everyone whose recovery deserves critical-care rigour.
+          </T>
         </Reveal>
         <Reveal delay={270}>
           <ul className="mt-12 flex flex-wrap gap-3">
-            {pillars.map((pillar) => (
+            {pillars.map((pillar, i) => (
               <li
                 key={pillar}
                 className="text-eyebrow border border-line-dark px-4 py-3 text-paper-dim"
               >
-                {pillar}
+                <T k={`home.sports.pillars.${i}`}>{pillar}</T>
               </li>
             ))}
           </ul>

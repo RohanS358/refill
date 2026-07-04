@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { text } from "@/lib/cms/content";
 import { Eyebrow } from "./eyebrow";
 import { Reveal } from "@/components/motion/reveal";
 
@@ -11,10 +12,12 @@ type PageHeroProps = {
   meta?: { label: string; value: string }[];
   children?: React.ReactNode;
   className?: string;
+  /** CMS key prefix — makes this hero editable in the admin. */
+  ck?: string;
 };
 
 /** Sub-page opener: eyebrow · display-xl title · lead · hairline · meta row. */
-export function PageHero({
+export async function PageHero({
   eyebrow,
   title,
   lead,
@@ -22,8 +25,28 @@ export function PageHero({
   meta,
   children,
   className,
+  ck,
 }: PageHeroProps) {
   const dark = tone === "dark";
+
+  const [eyebrowText, titleText, leadText] = ck
+    ? await Promise.all([
+        text(`${ck}.eyebrow`, eyebrow),
+        text(`${ck}.title`, title),
+        lead ? text(`${ck}.lead`, lead) : Promise.resolve(lead),
+      ])
+    : [eyebrow, title, lead];
+
+  const metaItems =
+    ck && meta?.length
+      ? await Promise.all(
+          meta.map(async (m, i) => ({
+            label: await text(`${ck}.meta.${i}.label`, m.label),
+            value: await text(`${ck}.meta.${i}.value`, m.value),
+          })),
+        )
+      : meta;
+
   return (
     <header
       className={cn(
@@ -33,25 +56,33 @@ export function PageHero({
     >
       <div className="mx-auto max-w-[88rem] px-5 pb-16 pt-36 md:px-12 md:pb-24 md:pt-44 lg:px-20">
         <Reveal>
-          <Eyebrow className={dark ? "text-green-soft" : undefined}>{eyebrow}</Eyebrow>
+          <Eyebrow className={dark ? "text-green-soft" : undefined}>
+            <span data-cms={ck ? `${ck}.eyebrow` : undefined}>{eyebrowText}</span>
+          </Eyebrow>
         </Reveal>
         <Reveal delay={90}>
-          <h1 className="text-display-xl mt-6 max-w-5xl text-balance md:mt-8">{title}</h1>
+          <h1
+            className="text-display-xl mt-6 max-w-5xl text-balance md:mt-8"
+            data-cms={ck ? `${ck}.title` : undefined}
+          >
+            {titleText}
+          </h1>
         </Reveal>
-        {lead ? (
+        {leadText ? (
           <Reveal delay={180}>
             <p
               className={cn(
                 "text-lead mt-8 max-w-2xl",
                 dark ? "text-paper-dim" : "text-muted-foreground",
               )}
+              data-cms={ck ? `${ck}.lead` : undefined}
             >
-              {lead}
+              {leadText}
             </p>
           </Reveal>
         ) : null}
         {children}
-        {meta?.length ? (
+        {metaItems?.length ? (
           <Reveal delay={270}>
             <dl
               className={cn(
@@ -59,17 +90,23 @@ export function PageHero({
                 dark ? "border-line-dark" : "border-border",
               )}
             >
-              {meta.map((m) => (
+              {metaItems.map((m, i) => (
                 <div key={m.label}>
                   <dt
                     className={cn(
                       "text-eyebrow",
                       dark ? "text-paper-dim" : "text-muted-foreground",
                     )}
+                    data-cms={ck ? `${ck}.meta.${i}.label` : undefined}
                   >
                     {m.label}
                   </dt>
-                  <dd className="text-data mt-2">{m.value}</dd>
+                  <dd
+                    className="text-data mt-2"
+                    data-cms={ck ? `${ck}.meta.${i}.value` : undefined}
+                  >
+                    {m.value}
+                  </dd>
                 </div>
               ))}
             </dl>

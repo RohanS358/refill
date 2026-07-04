@@ -1,8 +1,21 @@
 import Link from "next/link";
 import { site, footerColumns } from "@/lib/site";
+import { text } from "@/lib/cms/content";
 
 /** Deep Ink mega-footer: giant wordmark, sitemap, coordinates. */
-export function Footer() {
+export async function Footer() {
+  const [tagline, motto, email, city, country, coordinates] = await Promise.all([
+    text(
+      "footer.tagline",
+      "Clinical nutrition, engineered for recovery — from Nepal, for better healthcare outcomes.",
+    ),
+    text("footer.motto", "Precision is care."),
+    text("site.email", site.email),
+    text("site.city", site.city),
+    text("site.country", site.country),
+    text("site.coordinates", site.coordinates),
+  ]);
+
   return (
     <footer className="border-t border-line-dark bg-ink-deep text-background">
       <div className="mx-auto max-w-[88rem] px-5 md:px-12 lg:px-20">
@@ -15,26 +28,25 @@ export function Footer() {
             REFILL
           </p>
           <p className="text-eyebrow mt-6 text-paper-dim">
-            {site.legalName} · Est. {site.founded} · {site.city}, {site.country}
+            {site.legalName} · Est. {site.founded} · {city}, {country}
           </p>
         </div>
 
         {/* Columns */}
         <div className="grid gap-12 py-16 md:grid-cols-12 md:py-20">
           <div className="md:col-span-5">
-            <p className="text-lead max-w-sm text-balance">
-              Clinical nutrition, engineered for recovery — from Nepal, for better
-              healthcare outcomes.
+            <p className="text-lead max-w-sm text-balance" data-cms="footer.tagline">
+              {tagline}
             </p>
             <address className="text-data mt-8 space-y-2 not-italic text-paper-dim">
-              <p>{site.city}, {site.country}</p>
-              <p>{site.coordinates}</p>
+              <p>{city}, {country}</p>
+              <p data-cms="site.coordinates">{coordinates}</p>
               <p>
                 <a
-                  href={`mailto:${site.email}`}
+                  href={`mailto:${email}`}
                   className="underline decoration-line-dark underline-offset-4 transition-colors hover:text-background hover:decoration-green-soft"
                 >
-                  {site.email}
+                  {email}
                 </a>
               </p>
             </address>
@@ -67,7 +79,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
-          <p className="text-eyebrow">Precision is care.</p>
+          <p className="text-eyebrow" data-cms="footer.motto">{motto}</p>
           <a
             href="#content"
             className="underline decoration-line-dark underline-offset-4 transition-colors hover:text-background"

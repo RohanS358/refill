@@ -6,6 +6,8 @@ type Stat = {
   label: string;
   suffix?: string;
   format?: "plain" | "year";
+  /** CMS key for the label — makes it editable in the admin. */
+  labelKey?: string;
 };
 
 /** Hairline-ruled counter grid (the gap IS the rule — docs/spacing-system.md). */
@@ -43,6 +45,7 @@ export function StatBlock({
               "text-eyebrow mt-4",
               dark ? "text-paper-dim" : "text-muted-foreground",
             )}
+            data-cms={stat.labelKey}
           >
             {stat.label}
           </dt>

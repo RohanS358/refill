@@ -11,10 +11,14 @@ import { cn } from "@/lib/utils";
 export function ProductCard({
   family,
   className,
+  ci,
 }: {
   family: ProductFamily;
   className?: string;
+  /** Position in the products collection — enables visual editing. */
+  ci?: number;
 }) {
+  const key = (field: string) => (ci == null ? undefined : `col:products.${ci}.${field}`);
   return (
     <article className={cn("group relative flex flex-col bg-card p-8 md:p-10", className)}>
       <div className="flex items-start justify-between">
@@ -31,19 +35,27 @@ export function ProductCard({
           href={`/products#${family.id}`}
           className="after:absolute after:inset-0 focus-visible:outline-2"
         >
-          {family.name}
+          <span data-cms={key("name")}>{family.name}</span>
         </Link>
       </h3>
-      <p className="text-eyebrow mt-3 text-muted-foreground">{family.category}</p>
-      <p className="mt-5 leading-relaxed text-muted-foreground">{family.summary}</p>
+      <p className="text-eyebrow mt-3 text-muted-foreground" data-cms={key("category")}>
+        {family.category}
+      </p>
+      <p className="mt-5 leading-relaxed text-muted-foreground" data-cms={key("summary")}>
+        {family.summary}
+      </p>
       <dl className="mt-8 flex-1 border-t border-border">
-        {family.compounds.slice(0, 3).map((c) => (
+        {family.compounds.slice(0, 3).map((c, j) => (
           <div
             key={c.label}
             className="text-data flex items-baseline justify-between gap-4 border-b border-border py-2.5"
           >
-            <dt className="text-foreground">{c.label}</dt>
-            <dd className="text-right text-muted-foreground">{c.value}</dd>
+            <dt className="text-foreground" data-cms={key(`compounds.${j}.label`)}>
+              {c.label}
+            </dt>
+            <dd className="text-right text-muted-foreground" data-cms={key(`compounds.${j}.value`)}>
+              {c.value}
+            </dd>
           </div>
         ))}
       </dl>

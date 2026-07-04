@@ -1,15 +1,19 @@
 import { Section } from "@/components/site/section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/motion/reveal";
-import { milestones } from "@/lib/timeline";
+import { collection } from "@/lib/cms/content";
+import { milestones as defaultMilestones } from "@/lib/timeline";
 import { cn } from "@/lib/utils";
 
 /** Chapter 06 — the trajectory, ruled like a lab log. */
-export function Timeline() {
+export async function Timeline() {
+  const milestones = await collection("timeline", defaultMilestones);
+
   return (
     <Section id="timeline">
       <SectionHeading
         index="06"
+        ck="home.timeline"
         eyebrow="Innovation timeline"
         title="A short history, a long plan."
         lead="Founded in 2020 with a clinical portfolio first — every step since has been toward the same destination: manufacturing in Nepal."
@@ -33,12 +37,22 @@ export function Timeline() {
                     m.state === "future" && "border-dashed",
                   )}
                 />
-                <span className="text-display text-[clamp(1.5rem,2.5vw,2.25rem)] tabular-nums">
+                <span
+                  className="text-display text-[clamp(1.5rem,2.5vw,2.25rem)] tabular-nums"
+                  data-cms={`col:timeline.${i}.year`}
+                >
                   {m.year}
                 </span>
               </div>
-              <h3 className="text-title md:col-span-4">{m.title}</h3>
-              <p className="leading-relaxed text-muted-foreground md:col-span-5">{m.body}</p>
+              <h3 className="text-title md:col-span-4" data-cms={`col:timeline.${i}.title`}>
+                {m.title}
+              </h3>
+              <p
+                className="leading-relaxed text-muted-foreground md:col-span-5"
+                data-cms={`col:timeline.${i}.body`}
+              >
+                {m.body}
+              </p>
               <p className="text-eyebrow text-muted-foreground md:col-span-1 md:text-right">
                 {m.state === "done" ? "Done" : m.state === "now" ? "Active" : "Planned"}
               </p>

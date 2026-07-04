@@ -4,14 +4,18 @@ import { Section } from "@/components/site/section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal, Draw } from "@/components/motion/reveal";
 import { Pathway } from "@/components/gfx/pathway";
-import { solutions } from "@/lib/solutions";
+import { collection } from "@/lib/cms/content";
+import { solutions as defaultSolutions } from "@/lib/solutions";
 
 /** Chapter 05 — sticky rail + scrolling solution panels. */
-export function Solutions() {
+export async function Solutions() {
+  const solutions = await collection("solutions", defaultSolutions);
+
   return (
     <Section id="solutions">
       <SectionHeading
         index="05"
+        ck="home.solutions"
         eyebrow="Healthcare solutions"
         title="From formulation to bedside."
         lead="Nutrition only works when the whole pathway works — assessment, formulation, delivery, monitoring. We build for the pathway."
@@ -39,13 +43,18 @@ export function Solutions() {
                     {solution.index}
                   </span>
                   <div className="flex-1">
-                    <p className="text-eyebrow text-muted-foreground">{solution.eyebrow}</p>
+                    <p
+                      className="text-eyebrow text-muted-foreground"
+                      data-cms={`col:solutions.${i}.eyebrow`}
+                    >
+                      {solution.eyebrow}
+                    </p>
                     <h3 className="text-title mt-3">
                       <Link
                         href={solution.href}
                         className="group inline-flex items-center gap-3 hover:text-primary"
                       >
-                        {solution.title}
+                        <span data-cms={`col:solutions.${i}.title`}>{solution.title}</span>
                         <ArrowUpRight
                           size={20}
                           strokeWidth={1.5}
@@ -54,17 +63,28 @@ export function Solutions() {
                         />
                       </Link>
                     </h3>
-                    <p className="mt-4 max-w-xl leading-relaxed text-muted-foreground">
+                    <p
+                      className="mt-4 max-w-xl leading-relaxed text-muted-foreground"
+                      data-cms={`col:solutions.${i}.summary`}
+                    >
                       {solution.summary}
                     </p>
                     <dl className="mt-8 space-y-4">
-                      {solution.points.map((point) => (
+                      {solution.points.map((point, pi) => (
                         <div
                           key={point.title}
                           className="grid gap-1 border-l border-border pl-5 md:grid-cols-[10rem_1fr] md:gap-6"
                         >
-                          <dt className="text-data font-semibold">{point.title}</dt>
-                          <dd className="text-sm leading-relaxed text-muted-foreground">
+                          <dt
+                            className="text-data font-semibold"
+                            data-cms={`col:solutions.${i}.points.${pi}.title`}
+                          >
+                            {point.title}
+                          </dt>
+                          <dd
+                            className="text-sm leading-relaxed text-muted-foreground"
+                            data-cms={`col:solutions.${i}.points.${pi}.body`}
+                          >
                             {point.body}
                           </dd>
                         </div>

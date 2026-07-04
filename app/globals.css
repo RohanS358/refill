@@ -316,3 +316,40 @@
     animation: none !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   CMS edit mode — active only inside the /admin/editor iframe.
+   Editable regions get a dashed guide; animations resolve so nothing
+   below the fold is hidden while editing.
+--------------------------------------------------------------------------- */
+html[data-cms-edit] [data-cms] {
+  cursor: text;
+  outline: 1px dashed color-mix(in srgb, var(--color-primary) 55%, transparent);
+  outline-offset: 3px;
+  min-height: 1em;
+}
+html[data-cms-edit] [data-cms]:hover {
+  outline-style: solid;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+html[data-cms-edit] [data-cms]:focus {
+  outline: 2px solid var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+html[data-cms-edit] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+html[data-cms-edit] [data-draw] .draw-path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+html[data-cms-edit] [data-draw] .draw-node {
+  opacity: 1 !important;
+}
+html[data-cms-edit] .animate-rise-in,
+html[data-cms-edit] .animate-drift,
+html[data-cms-edit] .animate-drift-slow {
+  animation: none !important;
+}

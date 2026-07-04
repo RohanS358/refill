@@ -4,6 +4,7 @@ import { Section } from "@/components/site/section";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal, Draw } from "@/components/motion/reveal";
 import { Helix } from "@/components/gfx/helix";
+import { T } from "@/components/cms/t";
 
 const principles = [
   {
@@ -29,23 +30,27 @@ const principles = [
 ];
 
 /** Chapter 07 — dark chapter: the research philosophy, helix drawn on scroll. */
-export function Research() {
+export async function Research() {
   return (
     <Section id="research" tone="dark">
       <div className="grid gap-16 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <SectionHeading
             index="07"
+            ck="home.research"
             eyebrow="Research philosophy"
             title="Science is the supply chain."
             tone="dark"
           />
           <Reveal delay={180}>
             <blockquote className="mt-12 max-w-xl border-l border-green-soft pl-6">
-              <p className="text-lead text-paper-dim">
-                “In critical care, nutrition is not a side note to treatment.
-                It is treatment. We formulate accordingly.”
-              </p>
+              <T
+                k="home.research.quote"
+                as="p"
+                className="text-lead text-paper-dim"
+              >
+                “In critical care, nutrition is not a side note to treatment. It is treatment. We formulate accordingly.”
+              </T>
             </blockquote>
           </Reveal>
           <div className="mt-14 grid gap-px bg-line-dark sm:grid-cols-2">
@@ -55,8 +60,16 @@ export function Research() {
                   <p aria-hidden="true" className="text-data text-green-soft">
                     {p.index}
                   </p>
-                  <h3 className="text-title mt-3 text-background">{p.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-paper-dim">{p.body}</p>
+                  <h3 className="text-title mt-3 text-background">
+                    <T k={`home.research.principles.${i}.title`}>{p.title}</T>
+                  </h3>
+                  <T
+                    k={`home.research.principles.${i}.body`}
+                    as="p"
+                    className="mt-3 text-sm leading-relaxed text-paper-dim"
+                  >
+                    {p.body}
+                  </T>
                 </div>
               </Reveal>
             ))}

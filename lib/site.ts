@@ -45,6 +45,9 @@ export const fullNav: NavItem[] = [
   { label: "Contact", href: "/contact", hint: "Kathmandu, Nepal" },
 ];
 
+/** Routes that open with a Deep Ink hero — the header inverts on them until scrolled. */
+export const darkHeroRoutes = ["/", "/research", "/sports-nutrition"];
+
 export const footerColumns: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Company",

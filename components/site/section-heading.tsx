@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { text } from "@/lib/cms/content";
 import { Eyebrow } from "./eyebrow";
 import { Reveal } from "@/components/motion/reveal";
 
@@ -10,20 +11,31 @@ type SectionHeadingProps = {
   lead?: string;
   tone?: "paper" | "dark";
   className?: string;
+  /** CMS key prefix — makes eyebrow/title/lead editable in the admin. */
+  ck?: string;
 };
 
 /**
  * The section-opening pattern every chapter uses:
  * index number · eyebrow · display headline · optional lead.
  */
-export function SectionHeading({
+export async function SectionHeading({
   index,
   eyebrow,
   title,
   lead,
   tone = "paper",
   className,
+  ck,
 }: SectionHeadingProps) {
+  const [eyebrowText, titleText, leadText] = ck
+    ? await Promise.all([
+        text(`${ck}.eyebrow`, eyebrow),
+        text(`${ck}.title`, title),
+        lead ? text(`${ck}.lead`, lead) : Promise.resolve(lead),
+      ])
+    : [eyebrow, title, lead];
+
   return (
     <div className={cn("grid gap-6 lg:grid-cols-12", className)}>
       <div className="lg:col-span-2">
@@ -40,23 +52,31 @@ export function SectionHeading({
                 {index}
               </span>
             ) : null}
-            <Eyebrow className={tone === "dark" ? "text-green-soft" : undefined}>{eyebrow}</Eyebrow>
+            <Eyebrow className={tone === "dark" ? "text-green-soft" : undefined}>
+              <span data-cms={ck ? `${ck}.eyebrow` : undefined}>{eyebrowText}</span>
+            </Eyebrow>
           </div>
         </Reveal>
       </div>
       <div className="lg:col-span-10">
         <Reveal delay={90}>
-          <h2 className="text-display max-w-4xl text-balance">{title}</h2>
+          <h2
+            className="text-display max-w-4xl text-balance"
+            data-cms={ck ? `${ck}.title` : undefined}
+          >
+            {titleText}
+          </h2>
         </Reveal>
-        {lead ? (
+        {leadText ? (
           <Reveal delay={180}>
             <p
               className={cn(
                 "text-lead mt-6 max-w-2xl md:mt-8",
                 tone === "dark" ? "text-paper-dim" : "text-muted-foreground",
               )}
+              data-cms={ck ? `${ck}.lead` : undefined}
             >
-              {lead}
+              {leadText}
             </p>
           </Reveal>
         ) : null}
